@@ -52,6 +52,10 @@ const User = sequelize.define('User', {
         msg: 'The CIN must be 8 digits.'
       }
     }
+  },
+  isBanned: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 });
 

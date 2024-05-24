@@ -21,19 +21,19 @@ const register = new client.Registry();
 client.collectDefaultMetrics({ register });
 
 // Create a histogram metric for user-ms service
-const userRequestDurationMicroseconds = new client.Histogram({
-  name: 'user_request_duration_seconds',
-  help: 'Duration of user-ms service HTTP requests in microseconds',
+const teamRequestDurationMicroseconds = new client.Histogram({
+  name: 'team_request_duration_seconds',
+  help: 'Duration of team-ms service HTTP requests in microseconds',
   labelNames: ['method', 'route', 'code'],
   buckets: [0.1, 0.3, 0.5, 0.7, 1, 3, 5, 7, 10]
 });
 
 // Register the histogram for user-ms service
-register.registerMetric(userRequestDurationMicroseconds);
+register.registerMetric(teamRequestDurationMicroseconds);
 
 // Middleware to measure request duration for user-ms service
 app.use((req, res, next) => {
-  const end = userRequestDurationMicroseconds.startTimer();
+  const end = teamRequestDurationMicroseconds.startTimer();
   res.on('finish', () => {
     end({ method: req.method, route: req.url, code: res.statusCode });
   });
